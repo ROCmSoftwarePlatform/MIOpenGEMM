@@ -788,7 +788,15 @@ const TSHORT group_id_z = group_id % N_WORK_ITEMS_PER_C_ELM;
       ss << "\n/* branching between work groups : some wgs have 1 more unroll "
             "to process. */\n";
       ss << "int n_unrolls_remaining = (" << dp.k_effective_div_G_UNROLL;
-      ss << ") +  (group_id_z < n_work_groups_with_1_more);";
+      ss << ") ";
+
+     // To avoid the compiler outsmarting us when n_work_groups_with_1_more is zero 
+     // [tautological-unsigned-zero-compare], we avoid checking if unsigned integers
+     // are less than zero. 
+     if (dp.k_effective_mod_G_UNROLL > 0){
+      ss << " +  (group_id_z < n_work_groups_with_1_more)";
+     }
+     ss << ";";
     }
   }
 

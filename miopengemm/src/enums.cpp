@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <limits>
 #include <numeric>
 #include <miopengemm/enums.hpp>
 #include <miopengemm/outputwriter.hpp>
